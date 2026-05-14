@@ -7,22 +7,70 @@ To write a program to predict the type of species of the Iris flower using the S
 2. Anaconda – Python 3.7 Installation / Jupyter notebook
 
 ## Algorithm
-1. 
-2. 
-3. 
-4. 
+1.Import Necessary Libraries and Load Data
+2.Split Dataset into Training and Testing Sets
+3.Train the Model Using Stochastic Gradient Descent (SGD)
+4.Make Predictions and Evaluate Accuracy
+5.Generate Confusion Matrix 
 
 ## Program:
 ```
-/*
 Program to implement the prediction of iris species using SGD Classifier.
-Developed by: 
-RegisterNumber:  
-*/
+Developed by: JAYACHANDRA V
+RegisterNumber:  212225230111
+```
 ```
 
-## Output:
-![prediction of iris species using SGD Classifier](sam.png)
+from google.colab import drive
+drive.mount('/content/drive')
+
+import pandas as pd 
+from sklearn.datasets import load_iris 
+from sklearn.linear_model import SGDClassifier
+from sklearn.model_selection import train_test_split 
+from sklearn.metrics import accuracy_score, confusion_matrix 
+import matplotlib.pyplot as plt 
+import seaborn as sns 
+
+iris=load_iris() 
+df=pd.DataFrame(data=iris.data, columns=iris.feature_names) 
+df['target']=iris.target 
+print(df.head())
+```
+<img width="257" height="51" alt="image" src="https://github.com/user-attachments/assets/658770e2-6d07-44cd-b276-2a2bfe8c3793" />
+
+```
+X = df.drop('target',axis=1) 
+y=df['target']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42 )
+sgd_clf=SGDClassifier(max_iter=1000, tol=1e-3)
+sgd_clf.fit(X_train,y_train)
+
+y_pred=sgd_clf.predict(X_test)
+accuracy=accuracy_score(y_test,y_pred)
+print(f"Accuracy: {accuracy:.3f}")
+```
+<img width="934" height="376" alt="image" src="https://github.com/user-attachments/assets/ee63bf7c-ac0d-40d9-a477-520db5b25d4b" />
+
+```
+cm=confusion_matrix(y_test,y_pred) 
+print("Confusion Matrix:") 
+print(cm)
+```
+<img width="278" height="154" alt="image" src="https://github.com/user-attachments/assets/7ffbe1c4-fa2a-4302-9b9f-4f26ec4691ba" />
+
+```
+plt.figure(figsize=(6,4))
+sns.heatmap(cm, annot=True, cmap="Blues", fmt='d', xticklabels=iris.target_names, yticklabels=iris.target_names)
+plt.xlabel("Predicted Label")
+plt.ylabel("True Label")
+plt.title("Confusion Matrix")
+plt.show()
+```
+<img width="829" height="626" alt="image" src="https://github.com/user-attachments/assets/ee2034b6-e402-48e5-8c42-97755d715062" />
+
+
+
 
 
 ## Result:
